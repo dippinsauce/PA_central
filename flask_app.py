@@ -2,6 +2,7 @@
 # A very simple Flask Hello World app for you to get started with...
 
 from flask import Flask, redirect, render_template, request, url_for
+from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -15,7 +16,15 @@ SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostnam
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 
+class Interior_Temp(db.Model):
+    __tablename__ = "interior_temp"
+
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp
+
 comments =[]
+
+db=SQLAlchemy(app)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
