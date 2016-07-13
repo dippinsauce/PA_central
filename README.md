@@ -2,6 +2,11 @@
 
 Build a REST API on flask for data collection and controlling action.
 
+    database: "home"
+        table: "server_status"
+            column: "id" INT NOT NULL PRIMARY KEY AUTO_INCREMENT
+            column: "temp" FLOAT
+            column: "load_avg" FLOAT
 
     database: "lake"
 	    table: "interior_temp"
