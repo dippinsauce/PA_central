@@ -3,6 +3,7 @@
 
 from flask import Flask, redirect, render_template, request, url_for
 from flask.ext.sqlalchemy import SQLAlchemy
+import datetime
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -11,20 +12,39 @@ SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostnam
     username="dippinsauce",
     password="jyrqskrM1D9M2NAu0atF",
     hostname="dippinsauce.mysql.pythonanywhere-services.com",
-    databasename="dippinsauce$lake",
+    databasename="dippinsauce$default",
 )
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 
-class Interior_Temp(db.Model):
-    __tablename__ = "interior_temp"
+db=SQLAlchemy(app)
+
+class lake_interior_temp(db.Model):
+    __tablename__ = "lake_interior_temp"
 
     id = db.Column(db.Integer, primary_key=True)
-    timestamp
+    post_time = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
+    temperature = db.Column(db.Float)
+    humidity = db.Column(db.Float)
 
-comments =[]
+class home_server_status(db.Model):
+    __tablename__ = "home_server_status"
 
-db=SQLAlchemy(app)
+    id = db.Column(db.Integer, primary_key=True)
+    post_time = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
+    temperature = db.Column(db.Float)
+    humidity = db.Column(db.Float)
+
+
+class test_post(db.Model):
+    __tablename__ = "test"
+
+    id = db.Column(db.Integer, primary_key=True)
+    post_time = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow)
+    test1 = db.Column(db.Float)
+    test2 = db.Column(db.Integer)
+
+comments = []
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -34,9 +54,16 @@ def index():
     return redirect(url_for('index'))
 
 #Start the restful API routes
-@app.route('/dbase/')
-def put_database():
-    return 'getting started with dbase rest api'
+@app.route('/dbase/lake/interior_temp/<rawdata>', methods=["GET", "POST"])
+def putLakeInteriorTemps(rawdata):
+    ret_string = 'got your data, it looks like this: ' + str(rawdata)
+    return ret_string
+
+#Home applications
+@app.route('/home/server_status/<rawdata>', methods=["POST"])
+def putServerInfo(rawdata):
+    ret_string = 'got your data, it looks like this: ' + str(rawdata)
+    return ret_string
 
 @app.route('/wibble/')
 def wibble():

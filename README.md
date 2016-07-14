@@ -2,22 +2,36 @@
 
 Build a REST API on flask for data collection and controlling action.
 
-    database: "home"
-        table: "server_status"
+App routing
+/   serve switchboard, one look status board
+
+    /lake
+    ...
+
+    /home
+    /home/server_status
+        POST = send server temperature and load average, store in database.
+    /home/test
+        POST = send dummy numbers and store in database == TESTING ==
+
+
+Database configurations / tables
+
+    database: "default"
+        table: "home_server_status"
             column: "id" INT NOT NULL PRIMARY KEY AUTO_INCREMENT
+            column: "post_time" DATETIME
             column: "temp" FLOAT
             column: "load_avg" FLOAT
-
-    database: "lake"
-	    table: "interior_temp"
+	    table: "lake_interior_temp"
 		    column: "id" INT NOT NULL PRIMARY KEY AUTO_INCREMENT
-		    column: "timestamp" TIMESTAMP
+		    column: "post_time" DATETIME
 		    column: "temp" FLOAT
 		    column: "humidity" FLOAT
 	    table: "test"
 		    column: "id" INT NOT NULL PRIMARY KEY AUTO_INCREMENT
-		    column: "timestamp" TIMESTAMP
-		    column: "test_float" FLOAT
-		    column: "test_int" INT
+		    column: "post_time" DATETIME
+		    column: "test1" FLOAT
+		    column: "test2" INT
 
 
