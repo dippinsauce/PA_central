@@ -2,6 +2,8 @@
 
 Build a REST API on flask for data collection and controlling action.
 
+
+
 App routing
 /   serve switchboard, one look status board
 
